@@ -1,11 +1,8 @@
-Project Report
-4-fingered robot hand Prediction
-Jiajun Jiao
+# Project Report
+# 4-fingered robot hand Prediction
 
-
-
-Method
-DataSet Class
+## Method
+### DataSet Class
 In order to effectively and efficiently operate on the data for my machine learning project, I created a custom Image Dataset class. This class provides several useful functions for loading, processing, and analyzing data.
 
 The ‘init’ function allows for the selection of either train data or test data, which is then loaded from the lazydata folder. This allows for flexibility and customization in data selection and preparation.
@@ -14,65 +11,36 @@ The ‘len’ function simply returns the length of the data that has been loade
 
 The ‘getitem’ function is responsible for a number of important tasks. It reads the .png image data (image0, image1, and image2), as well as the depth data. It then calculates the mean and standard deviation for all four of these data types across 3396 data points. Using these values, it creates normalizers for each of the image data types and uses transforms.Normalize to normalize them. The depth data is then divided by 1000 and normalized using the formula (X-mean)/std. Finally, the ground truth data (Y) is read and multiplied by 1000. The final format returned by getitem is a tuple containing the processed images, depth data, and ground truth, in the format (image0, image1, image2, depth), Y.
 
-Data Processing
+### Data Processing
 In order to optimize the data for use in my machine learning model, I customized a series of transformation operations that are applied to the image data that is read. After using ToPILImage(), I mainly used the Grayscale() and ColorJitter() methods. This is because the images contain a lot of unnecessary noise, and their colors can affect the precision of the model. Since the main focus of the model is the black palm and fingers with white fingertips, I used grayscale to highlight this feature and increase the contrast coefficient in order to make it more obvious and easier for the model to learn efficiently. The contrast parameter for ColorJitter is set to (.7, .8), while the other parameters such as brightness, saturation, and hue are all set to 0, which means they are unchanged. Finally, I used ToTensor() to convert the image back to the Tensor format. Overall, this customized series of transformation operations allows for effective and efficient data processing and preparation for use in the machine learning model.
 
-Data Loading
+### Data Loading
 Based on the preparation steps that I completed previously, I then loaded the training data into an instance of the customized dataset class. I selected a batch size of 16 and set the shuffle option to True. I then created a data loader for the training data so that it could be used in the subsequent steps of my model training process. To verify that the correct number of data points had been loaded, I printed the length of the training data.
 
 In addition to creating the training data, I also created a local validation dataset, which was randomly split from the original dataset and was not used during the training process. This allowed me to evaluate the performance of my model on unseen data, giving me an unbiased estimate of its skill. However, during the final stages of model training, I chose to merge the validation data back into the training data in order to boost the performance of the model by increasing the amount of data it had available for training.
 
-Customized Train Method
-I wrote my customized train method based on the code from Homework 05. The loss function I use is MSELoss.
+### Customized Train Method
+I wrote my customized train method. The loss function I use is MSELoss.
 
-Customized Test Method
-I also created a customized Test method based on the one in Homework 05. The loss function is consistent with the one used in the Train method - MSELoss. The accuracy is calculated per epoch, by averaging all the mse loss value generated.
+### Customized Test Method
+I also created a customized Test method. The loss function is consistent with the one used in the Train method - MSELoss. The accuracy is calculated per epoch, by averaging all the mse loss value generated.
 
-Customized Resnet50 Model Setup
+### Customized Resnet50 Model Setup
 I use the resnet50 model from torchvision.models library. The fully-connected layer fc and first convolutional layer conv1 are customized in order to fit the data (12 channels) input specifically for this problem.
 
-Start Training Process
+### Start Training Process
 I choose to use Adam as my optimizer. The learning rate is set to 0.01 and the momentum is set to default.
 I then ran the train method from epoch=0 to epoch=69 recursively to train my model.
 
-Model State Saving
+### Model State Saving
 I used torch.save() method to save the current state of my model trained (including parameters)
 
-Submission File Generation
-This part of the code is similar to the one provided on Campuswire that is used to generate the submission file. The id list is loaded from the original testX.pt file since I didn’t read it from lazy data in my customized dataset. The final output is divided by 1000 since during the training I multiplied it by 1000 and the model result would be 1000 times greater than the original one.
+### Submission File Generation
+This part of the code generates the submission file. The id list is loaded from the original testX.pt file since I didn’t read it from lazy data in my customized dataset. The final output is divided by 1000 since during the training I multiplied it by 1000 and the model result would be 1000 times greater than the original one.
 
-Experimental Results
-Epoch Value
-Epoch 
-0
-10
-20
-30
-40
-50
-60
-70
-Loss
-656.1
-28.0
-16.5
-11.6
-7.5
-5.8
-4.1
-3.6
-Validation Error
-2860.9
-242.1
-114.5
-167.8
-81.1
-78.2
-82.6
-64.0
-
-
-Validation Error
+## Experimental Results
+### Epoch Value
+![Epoch Value](/imgs/Epoch.png)
 
 Preprocessing Method Selection
 Preprocessing Method
