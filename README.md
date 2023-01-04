@@ -1,4 +1,4 @@
-Link to the data:
+Link to data:
 
 https://drive.google.com/drive/folders/1YNrQe3_xqwBHLtZ12dVR4bHbG8vvLqyb?usp=sharing
 
