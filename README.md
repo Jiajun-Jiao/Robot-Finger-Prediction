@@ -42,83 +42,32 @@ This part of the code generates the submission file. The id list is loaded from 
 ### Epoch Value
 ![Epoch Value](/imgs/Epoch.png)
 
-Preprocessing Method Selection
-Preprocessing Method
-No change
-CenterCrop(200)
-RandomHorizontalFlip()
-Error at Epoch 5
-629.1
-3077.27
-1083.0
+### Preprocessing Method Selection
+![Preprocessing Method Selection](/imgs/Preprocessing.png)
 
+### Optimizer Selection
+![Optimizer](/imgs/Optimizer.png)
 
-		No change			       CenterCrop(200)			RandomHorizontalFlip()
-
-Optimizer Selection
-Optimizer
-Adam
-SGD
-RMSprop
-Adagrad
-lr
-0.01
-0.01
-0.01
-0.01
-momentum
-DEFAULT
-0.9
-DEFAULT
-DEFAULT
-Error at Epoch10
-242.1
-390.7
-670.3
-517.9
-
-
-
-	       Adam			   SGD			       RMSprop			Adagrad
-
-Model Selection
-ResNet Model
-ResNet18
-ResNet34
-ResNet50
-ResNet152
-Error at Epoch 10
-82.6
-99.7
-78.2
-86.6
-
-
-
-Discussion
-Epoch Value
+## Discussion
+### Epoch Value
 Based on the data, it appears that the loss and validation error both decrease as the epoch increases. This suggests that the model's performance improves as it trains for more epochs. The validation error reaches its lowest point at epoch 40, after which it begins to increase slightly. This could indicate that the model is beginning to overfit to the training data. However, the decrease trend continues again, implying that the point epoch=40 may be an outlier. Overall, the results show that increasing the number of epochs can improve the model's performance, but it may be necessary to carefully balance the number of epochs to prevent overfitting.
 
-Preprocessing Method Selection
+### Preprocessing Method Selection
 Notice that, with no change on my current preprocessing methods:
 Based on the data, it appears that adding the 'CenterCrop(200)' and 'RandomHorizontalFlip()' transformations to the model can affect its performance. The 'CenterCrop(200)' and 'Resize()' transformations can make it difficult for the model to learn the connections between the depths at each pixel and the new resized images, resulting in a lower prediction error. On the other hand, the 'RandomHorizontalFlip()' transformation does not improve the accuracy of the model because the camera positions are assumed to be fixed, and there is no need to flip the images horizontally. In fact, overfitting on the training data with respect to the horizontal position can actually improve the model's ability to predict on unseen data.
 
-Optimizer Selection
+### Optimizer Selection
 Based on the data, it appears that the optimizer has a significant influence on the error at epoch 10. The Adam and SGD optimizers perform the best, with error values of 242.1 and 390.7, respectively. The Adagrad optimizer has a much higher error value of 517.9, and the RMSprop optimizer has an even higher error value of 670.3. This suggests that the Adam and SGD optimizers are more effective at reducing the error during this training. It is worth noting that the error values for all of the optimizers are relatively high, indicating that there is room for further improvement in the model's performance. Additionally, the learning rate and momentum values may also have an impact on the model's performance, but this is not clear from the given data.
 
-Model Selection
-Based on the data, it appears that the type of ResNet model used has an impact on the error at epoch 10. The ResNet50 model performs the best, with an error of 78.2, followed by the ResNet18 model with an error of 82.6. The ResNet34 and ResNet152 models have higher error values of 99.7 and 86.6, respectively. This suggests that the ResNet50 model is the most effective at reducing the error during training, while the other models may not be as effective. 
-This shows that it is not necessarily the case that more layers in a model will always lead to better performance. Adding more layers to a model can increase its capacity and allow it to learn more complex patterns in the data. However, if the model has too many layers, it can become overfitted to the training data and may not generalize well to new data. This can result in poor performance on unseen data. Additionally, adding more layers to a model can also increase its computational complexity, which can make it more difficult and time-consuming to train. As such, it is important to carefully balance the number of layers in a model to achieve the best performance without overfitting.
-
-Future Work
-Epoch Value
+## Future Work
+### Epoch Value
 I could use a larger epoch size for training the data. So far the largest one that I used is 100. I wonder whether there will be significant improvement if I increase it to 300 or 500. But that requires a much better GPU… I’ve already spent $100 on Colab for this project 🙁
 
-Preprocessing Method Selection
+### Preprocessing Method Selection
 I could try to find more various image preprocessing techniques. I actually have an idea but don’t know how to implement it. I tried to crop the three images differently so that the useless borders are discarded and only the hand is kept. However, there is a difficulty: if I crop them differently and then resize them to be (224,224) again, I haven’t come up with an idea of how to crop and resize the depth. I could work more on this.
 
-Optimizer Selection
+### Optimizer Selection
 I could also try using different optimizers and learning rate values to optimize my model. And for the four that I analyzed in the Experimental Results section, I could try larger epoch size and test their performance.
 
-Model Selection
-Instead of using the ResNet model, I could try other pre-built models such as Inception and DenseNet, and could also build a CNN model by myself. 
+### Model Selection
+Instead of using the ResNet50 model, I could try other pre-built ResNet models as well as Inception and DenseNet, and could also build a CNN model by myself. 
